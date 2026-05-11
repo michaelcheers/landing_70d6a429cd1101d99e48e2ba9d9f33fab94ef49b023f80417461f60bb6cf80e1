@@ -10,8 +10,23 @@
   <link rel="stylesheet" href="/css/landingcomm.css"/>
   <link rel="stylesheet" href="/css/bookOnline.css"/>
 
-  <!-- Tailwind Play CDN: compiles utilities at runtime, no PostCSS build. -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind v4 Play CDN. v4 is needed because the project's theme is
+       defined with the v4 `@theme` directive. v3 silently ignores it. -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- The v4 Play CDN only processes @theme inside <style type="text/tailwindcss">
+       blocks (not in linked stylesheets), so we mirror the @theme block from
+       globals.css here. The @font-face rules in globals.css are still loaded
+       via the link tag above and work as standard CSS. -->
+  <style type="text/tailwindcss">
+    @theme {
+      --color-primary: #103928;
+      --color-secondary: #D1E030;
+      --color-tertiary: #f9130d;
+      --font-bold: 'Arial Rounded MT Bold', Arial, sans-serif;
+      --font-regular: 'Arial Rounded MT', Arial, sans-serif;
+    }
+  </style>
 
   <!-- React 19 is ESM-only (no UMD). Use importmap + esm.sh. The
        "react-datepicker/" prefix entry lets sub-paths like
@@ -79,10 +94,10 @@
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1561438818562563&ev=PageView&noscript=1" alt=""/></noscript>
   <div id="root"></div>
 
-  <!-- Register the service worker (which transpiles .jsx/.tsx on the fly via
-       Babel Standalone in its own context), then inject the entry as a normal
-       ES module. The SW intercepts the fetch and returns transpiled JS with
-       the proper Content-Type so the browser executes it as a module. -->
+  <!-- Register the service worker, then inject the entry as an ES module once
+       the SW is controlling the page. On first load, no reload is needed —
+       we wait for the controllerchange event (SW calls clients.claim() in its
+       activate handler) and then inject the script. -->
   <script>
   (async function () {
     function loadEntry() {
@@ -105,13 +120,10 @@
     }
 
     if (navigator.serviceWorker.controller) {
-      // SW already controlling — safe to load entry.
       loadEntry();
     } else {
-      // First load: wait for SW to take control, then reload so all
-      // subsequent .jsx fetches go through the transpiler.
       navigator.serviceWorker.addEventListener('controllerchange', function () {
-        location.reload();
+        loadEntry();
       }, { once: true });
     }
   })();

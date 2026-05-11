@@ -4,7 +4,7 @@ import React, { Suspense } from 'react';
 // Layout is just a Suspense boundary + outer chrome.
 export default function Layout({ children }) {
   return (
-    <Suspense fallback={<div style={{padding:40,textAlign:'center'}}>Loading…</div>}>
+    <Suspense fallback={null}>
       {children}
     </Suspense>
   );
