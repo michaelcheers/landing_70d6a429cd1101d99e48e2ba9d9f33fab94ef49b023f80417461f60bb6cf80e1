@@ -13,7 +13,9 @@
   <!-- Tailwind Play CDN: compiles utilities at runtime, no PostCSS build. -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- React 19 is ESM-only (no UMD). Use importmap + esm.sh. -->
+  <!-- React 19 is ESM-only (no UMD). Use importmap + esm.sh. The
+       "react-datepicker/" prefix entry lets sub-paths like
+       "react-datepicker/dist/react-datepicker.css" resolve. -->
   <script type="importmap">
   {
     "imports": {
@@ -22,6 +24,7 @@
       "react-dom":         "https://esm.sh/react-dom@19.2.4",
       "react-dom/client":  "https://esm.sh/react-dom@19.2.4/client",
       "react-datepicker":  "https://esm.sh/react-datepicker@8.3.0?deps=react@19.2.4,react-dom@19.2.4",
+      "react-datepicker/": "https://esm.sh/react-datepicker@8.3.0/",
       "@heroicons/react/24/outline": "https://esm.sh/@heroicons/react@2.2.0/24/outline?deps=react@19.2.4",
       "@heroicons/react/24/solid":   "https://esm.sh/@heroicons/react@2.2.0/24/solid?deps=react@19.2.4",
       "@heroicons/react/20/solid":   "https://esm.sh/@heroicons/react@2.2.0/20/solid?deps=react@19.2.4"
