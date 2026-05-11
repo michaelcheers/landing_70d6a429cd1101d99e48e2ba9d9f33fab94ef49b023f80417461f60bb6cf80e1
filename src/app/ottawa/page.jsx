@@ -49,7 +49,6 @@ export default function Home() {
   return (
     <div className="bg-[#F8F5EC]" >
       <div className="fixed top-0 left-0 w-full z-10000">
-        <Header/>
       </div>
       {/* Desktop top section */}
       <div className="w-full hidden md:flex flex-col items-center relative mt-20">
@@ -362,7 +361,6 @@ export default function Home() {
       <GetQuoteFooter section="ottawa-moving"/>
 
       <div className="px-1 bg-[#06170e]">
-            <Footer/>
       </div>
 
 

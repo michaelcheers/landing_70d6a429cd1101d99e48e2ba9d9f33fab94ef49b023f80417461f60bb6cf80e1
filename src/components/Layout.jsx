@@ -1,11 +1,24 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, lazy } from 'react';
+import Header from '/src/app/components/header.jsx';
 
-// In the original Next app, each page.tsx renders its own Header/Footer.
-// Layout is just a Suspense boundary + outer chrome.
+// Footer is lazy-loaded — it lives well below the fold on most pages and the
+// original Next code dynamic-imported it. Keeping that here avoids paying for
+// it on first paint.
+const Footer = lazy(() => import('/src/app/components/footer.jsx'));
+
+// In the original Next app, the page chrome (Header + Footer) lived in
+// app/layout.jsx and wrapped every route automatically. This Layout replicates
+// that so individual page files don't need to render Header/Footer themselves.
 export default function Layout({ children }) {
   return (
-    <Suspense fallback={null}>
-      {children}
-    </Suspense>
+    <>
+      <Header />
+      <Suspense fallback={null}>
+        {children}
+      </Suspense>
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
+    </>
   );
 }

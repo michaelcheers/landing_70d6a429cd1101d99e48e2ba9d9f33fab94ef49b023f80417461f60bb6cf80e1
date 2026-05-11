@@ -50,7 +50,6 @@ export default function Home() {
     <div className="bg-[#F8F5EC]" >
       <span style={{display:'none'}} id="deploy-check-abc123">deployed</span>
       <div className="fixed top-0 left-0 w-full z-10000">
-        <Header/>
       </div>
       {/* Desktop top section */}
       <div className="w-full hidden md:flex flex-col items-center relative mt-20">
@@ -363,7 +362,6 @@ export default function Home() {
       <GetQuoteFooter section="vancouver-moving"/>
 
       <div className="px-1 bg-[#06170e]">
-            <Footer/>
       </div>
 
 

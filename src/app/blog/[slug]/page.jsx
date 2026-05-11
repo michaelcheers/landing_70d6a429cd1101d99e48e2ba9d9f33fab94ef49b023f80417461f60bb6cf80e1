@@ -88,7 +88,6 @@ export default async function BlogPost({
     <div className="flex flex-col min-h-screen">
       {/* Header */}
       <div className="fixed top-0 left-0 w-full z-10000">
-        <Header section="residential" />
       </div>
 
       {/* Hero Section */}
@@ -210,7 +209,6 @@ export default async function BlogPost({
       </div>
 
       {/* Footer */}
-      <Footer />
     </div>
   );
 }
