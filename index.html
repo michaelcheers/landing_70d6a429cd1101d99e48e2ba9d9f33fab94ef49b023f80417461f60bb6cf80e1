@@ -29,10 +29,6 @@
   }
   </script>
 
-  <!-- Babel Standalone transpiles JSX/TS in the browser. data-type="module"
-       makes the output an ES module so the importmap resolves bare specifiers. -->
-  <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
-
   <!-- process.env stub: the old Next code reads NEXT_PUBLIC_* values at
        module level. These are public-by-design keys; embed them directly. -->
   <script>
@@ -80,33 +76,33 @@
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1561438818562563&ev=PageView&noscript=1" alt=""/></noscript>
   <div id="root"></div>
 
-  <!-- Register the service worker and only inject the Babel entry once the SW
-       is controlling the page. The SW rewrites .jsx fetches to JS with proper
-       MIME; without it, GH Pages serves /src/App.jsx as text/jsx and the
-       browser rejects the module import. -->
+  <!-- Register the service worker (which transpiles .jsx/.tsx on the fly via
+       Babel Standalone in its own context), then inject the entry as a normal
+       ES module. The SW intercepts the fetch and returns transpiled JS with
+       the proper Content-Type so the browser executes it as a module. -->
   <script>
   (async function () {
     function loadEntry() {
       var s = document.createElement('script');
-      s.type = 'text/babel';
-      s.dataset.type = 'module';
-      s.dataset.presets = 'react';
+      s.type = 'module';
       s.src = '/src/main.jsx';
       document.body.appendChild(s);
     }
 
-    if (!('serviceWorker' in navigator)) { loadEntry(); return; }
+    if (!('serviceWorker' in navigator)) {
+      console.error('No service worker support; cannot transpile .jsx in the browser.');
+      return;
+    }
 
     try {
       await navigator.serviceWorker.register('/sw.js');
     } catch (e) {
       console.error('SW register failed:', e);
-      loadEntry();
       return;
     }
 
     if (navigator.serviceWorker.controller) {
-      // SW already controlling this page — safe to load entry.
+      // SW already controlling — safe to load entry.
       loadEntry();
     } else {
       // First load: wait for SW to take control, then reload so all
