@@ -1,0 +1,28 @@
+/* Tailwind utilities are injected at runtime by the Play CDN in index.html. */
+
+@font-face {
+  font-family: 'Arial Rounded MT Bold';
+  src: url('/fonts/arialroundedmtbold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Arial Rounded MT';
+  src: url('/fonts/arialroundedmtreg.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --color-primary: #103928;
+  --color-secondary: #D1E030;
+  /* --color-tertiary: #52844c; */
+  /* --color-tertiary: #b9d264; */
+  --color-tertiary: #f9130d;
+}
+
+@theme {
+  --font-bold: 'Arial Rounded MT Bold', Arial, sans-serif;
+  --font-regular: 'Arial Rounded MT', Arial, sans-serif;
+}

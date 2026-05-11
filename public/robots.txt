@@ -1,0 +1,9 @@
+Crawl-delay: 10
+# START
+# ---------------------------
+User-agent: *
+Disallow:
+
+Sitemap: https://www.movingpapa.com/sitemap.xml
+# ---------------------------
+# END

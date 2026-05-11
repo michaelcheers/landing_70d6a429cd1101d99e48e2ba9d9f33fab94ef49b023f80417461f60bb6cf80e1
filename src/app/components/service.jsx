@@ -1,0 +1,290 @@
+
+import React, { useState, useRef, useEffect } from 'react';
+import Link from "/src/components/Link.jsx";
+import residential from '/src/images/residentialMovingImg.jpg';
+import commercial from '/src/images/commercialMovingImg.jpg';
+import storage from '/src/images/storageImg.jpg';
+import packing from '/src/images/packingImg.jpg';
+
+// Icons based on your requested design
+const LocationIcon = () => (
+  <div className="bg-primary backdrop-blur-sm p-4 rounded-full w-14 h-14 flex items-center justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+  </div>
+);
+
+const StorageIcon = () => (
+  <div className="bg-primary backdrop-blur-sm p-4 rounded-full w-14 h-14 flex items-center justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+    </svg>
+  </div>
+);
+
+const CommercialIcon = () => (
+  <div className="bg-primary backdrop-blur-sm p-4 rounded-full w-14 h-14 flex items-center justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+    </svg>
+  </div>
+);
+
+const PackingIcon = () => (
+  <div className="bg-primary backdrop-blur-sm p-4 rounded-full w-14 h-14 flex items-center justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+    </svg>
+  </div>
+);
+
+interface ServiceProps {
+  from? : string
+}
+
+const EnhancedServicesComponent = ({from = "toronto"} : ServiceProps) => {
+  const [currentSlide, setCurrentSlide] = useState(1);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const mobileSliderRef = useRef<HTMLDivElement>(null);
+  
+  const link = from == "toronto" ? "" : "/vancouver"
+
+  const services = [
+    {
+      title: "Local moving",
+      description: "Our local moving service is quick, efficient, and tailored to your schedule, getting you settled into your new home in no time.",
+      icon: <LocationIcon />,
+      image: residential.src,
+      link: "/service/residential"
+    },
+    {
+      title: "Storage Solutions",
+      description: "Need a place to store your belongings? We offer secure, climate-controlled storage options to keep your items safe until you're ready for them.",
+      icon: <StorageIcon />,
+      image: storage.src,
+      link: "/service/storage"
+    },
+    {
+      title: "Commercial",
+      description: "Relocating your business? We specialize in commercial moves, handling your office equipment and furniture with expert care and efficiency.",
+      icon: <CommercialIcon />,
+      image: commercial.src,
+      link: "/commercial"
+    },
+    {
+      title: "Packing Services",
+      description: "Let us take care of the packing for you. Our team expertly packs your belongings with care, ensuring everything is secure and ready for the move.",
+      icon: <PackingIcon />,
+      image: packing.src,
+      link: "/service/packing"
+    }
+  ];
+
+  const handleNext = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentSlide((prev) => (prev + 1) % services.length);
+  };
+
+  const handlePrev = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentSlide((prev) => 
+      prev === 0 ? services.length - 1 : prev - 1
+    );
+  };
+
+  // Touch event handlers for swipe functionality
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+  
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+  
+  const handleTouchEnd = () => {
+    if (!isAnimating) {
+      if (touchStart - touchEnd > 75) {
+        // Swipe left - go to next slide
+        handleNext();
+      }
+      
+      if (touchEnd - touchStart > 75) {
+        // Swipe right - go to previous slide
+        handlePrev();
+      }
+    }
+    // Reset values
+    setTouchStart(0);
+    setTouchEnd(0);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsAnimating(false);
+    }, 500); // Match this duration with CSS transition
+    
+    // Update mobile slider position with animation
+    if (mobileSliderRef.current) {
+      mobileSliderRef.current.style.transform = `translateX(-${currentSlide * 103}%)`;
+    }
+    
+    return () => clearTimeout(timer);
+  }, [currentSlide]);
+
+  return (
+    <div className="w-full py-10  bg-[#F8F5EC]">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-xl md:text-3xl font-bold text-primary mb-2">
+            Services designed with <span className="text-tertiary">you in mind</span>
+          </h2>
+          <p className="text-gray-700 max-w-3xl mx-auto text-base">
+            Moving takes more than muscle, it takes precision, planning, and care.
+            At Moving Papa, Whether it&apos;s local move, commercial move, packing, or a storage 
+            we handle every aspect to make your transition seamless
+          </p>
+        </div>
+
+        {/* For mobile: Horizontal scroll container styled like the review section */}
+        <div className="md:hidden w-full pb-10 rounded-4xl">
+          <div className="w-full text-center relative overflow-hidden mx-auto">
+            <div className="relative">
+              {/* This container controls the width */}
+              <div className="w-[280px] h-[400px] mx-auto">
+                {/* This div slides horizontally based on currentSlide with ref to match review component */}
+                <div 
+                  ref={mobileSliderRef}
+                  className="flex w-full transition-transform duration-500 ease-in-out gap-x-2"
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
+                >
+                  {services.map((service, index) => (
+                    <div 
+                      key={index} 
+                      className="min-w-full w-full flex-shrink-0"
+                    >
+                      {/* Card content */}
+                      <div className="relative overflow-hidden rounded-3xl h-[400px]">
+                        {/* Background image with overlay */}
+                        <div 
+                          className="absolute inset-0 bg-cover bg-center"
+                          style={{ 
+                            backgroundImage: `url(${service.image})`,
+                            backgroundPosition: 'center'
+                          }}
+                        ></div>
+                        <div className="absolute inset-0 bg-gradient-to-b from-primary/40 via-primary/70 to-primary/80"></div>
+                        
+                        {/* Content */}
+                        <div className="relative h-full flex flex-col justify-between p-6 text-white">
+                          <div>
+                            {service.icon}
+                            <h3 className="text-xl md:text-2xl font-bold mt-4 mb-2">{service.title}</h3>
+                          </div>
+                          
+                          <div className="space-y-4">
+                            <p className="text-base md:text-base text-white">{service.description}</p>
+                            <Link href={link+service.link} className="inline-flex items-center text-tertiary hover:underline font-medium">
+                              View more <span className="ml-1">→</span>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* Navigation controls: Arrows next to dots */}
+            <div className="flex items-center justify-center mt-4 space-x-3">
+              {/* Left arrow button */}
+              <button 
+                onClick={handlePrev} 
+                className="text-white hover:text-tertiary transition-colors bg-primary rounded-full h-10 w-10 flex justify-center items-center mr-5"
+                aria-label="Previous slide"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              
+              {/* Slide indicators */}
+              
+              <div className="flex justify-center space-x-2">
+                {services.map((_, index) => (
+                  <div 
+                    key={index}
+                    className={`h-2 w-2 rounded-full ${currentSlide === index ? 'bg-tertiary' : 'bg-primary bg-opacity-50'}`}
+                    onClick={() => {
+                      if (!isAnimating) {
+                        setIsAnimating(true);
+                        setCurrentSlide(index);
+                      }
+                    }}
+                  ></div>
+                ))}
+              </div>
+              
+              {/* Right arrow button */}
+              <button 
+                onClick={handleNext} 
+                className="text-white hover:text-tertiary transition-colors bg-primary rounded-full h-10 w-10 flex justify-center items-center ml-1"
+                aria-label="Next slide"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="flex justify-center pt-10">
+              <Link href={`${link}/finalstep/residential`} className="bg-tertiary font-bold text-white w-8/10 md:w-1/3 py-3 text-center rainbow-button !rounded-lg">Get a Quote</Link>
+            </div>
+          </div>
+        </div>
+
+        {/* For desktop: Grid layout */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {services.map((service, index) => (
+            <div key={index} className="relative overflow-hidden rounded-3xl h-96 group">
+              {/* Background image with overlay */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                style={{ 
+                  backgroundImage: `url(${service.image})`,
+                  backgroundPosition: 'center'
+                }}
+              ></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/40 via-primary/70 to-primary/80"></div>
+              
+              {/* Content */}
+              <div className="relative h-full flex flex-col justify-between p-6 text-white">
+                <div>
+                  {service.icon}
+                  <h3 className="text-2xl font-bold mt-4 mb-2">{service.title}</h3>
+                </div>
+                
+                <div className="space-y-4">
+                  <p className="text-base text-white">{service.description}</p>
+                  <Link href={link+service.link} className="inline-flex items-center text-tertiary hover:underline font-medium">
+                    View more <span className="ml-1">→</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EnhancedServicesComponent;

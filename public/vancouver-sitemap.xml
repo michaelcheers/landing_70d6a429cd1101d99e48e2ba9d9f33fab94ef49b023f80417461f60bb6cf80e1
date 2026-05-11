@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main pages -->
+  <url>
+    <loc>https://www.movingpapa.com/vancouver</loc>
+    <lastmod>2025-05-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/company</loc>
+    <lastmod>2025-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/commercial</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- CommercialServices -->
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/service/office</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/service/warehouse</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/service/lastmile</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/service/specialEquipment</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/service/art</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <!-- Residential Service -->
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/service/residential</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/service/storage</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/service/packing</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Blog Pages -->
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/blog</loc>
+    <lastmod>2025-12-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/blog/hiring-local-toronto-movers</loc>
+    <lastmod>2024-12-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/blog/top-5-mistakes-hiring-moving-company-toronto</loc>
+    <lastmod>2025-12-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.movingpapa.com/vancouver/blog/save-money-toronto-move-without-cutting-corners</loc>
+    <lastmod>2025-12-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>
