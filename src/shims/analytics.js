@@ -1,5 +1,11 @@
-// @vercel/analytics shim — Vercel is gone; render nothing.
-import React from 'react';
-export function Analytics() { return null; }
-export function track(_event, _props) {}
-export default Analytics;
+function Analytics() {
+  return null;
+}
+function track(_event, _props) {
+}
+var analytics_default = Analytics;
+export {
+  Analytics,
+  analytics_default as default,
+  track
+};

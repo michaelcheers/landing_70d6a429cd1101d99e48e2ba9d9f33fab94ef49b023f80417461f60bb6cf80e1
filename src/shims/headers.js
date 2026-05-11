@@ -1,12 +1,24 @@
-// next/headers — client has no real headers; return empty stubs.
-export function headers() { return new Headers(); }
-export function cookies() {
+function headers() {
+  return new Headers();
+}
+function cookies() {
   return {
     get: () => null,
     getAll: () => [],
-    set: () => {},
-    delete: () => {},
-    has: () => false,
+    set: () => {
+    },
+    delete: () => {
+    },
+    has: () => false
   };
 }
-export function draftMode() { return { isEnabled: false, enable: () => {}, disable: () => {} }; }
+function draftMode() {
+  return { isEnabled: false, enable: () => {
+  }, disable: () => {
+  } };
+}
+export {
+  cookies,
+  draftMode,
+  headers
+};

@@ -1,38 +1,56 @@
-import React, { useEffect } from 'react';
-
-// next/script replacement: lazily appends a <script> tag to <head>.
-// All "strategy" props are treated the same — just load it.
-export default function Script({ src, id, strategy, onLoad, onReady, onError, dangerouslySetInnerHTML, children, ...rest }) {
+import { useEffect } from "react";
+function Script({ src, id, strategy, onLoad, onReady, onError, dangerouslySetInnerHTML, children, ...rest }) {
   useEffect(() => {
     if (src) {
       if (id && document.getElementById(id)) {
         if (onReady) onReady();
         return;
       }
-      const s = document.createElement('script');
+      const s = document.createElement("script");
       if (id) s.id = id;
       s.src = src;
       s.async = true;
       for (const k of Object.keys(rest)) {
-        try { s.setAttribute(k.toLowerCase(), String(rest[k])); } catch {}
+        try {
+          s.setAttribute(k.toLowerCase(), String(rest[k]));
+        } catch {
+        }
       }
-      if (onLoad)  s.addEventListener('load', onLoad);
-      if (onError) s.addEventListener('error', onError);
+      if (onLoad) s.addEventListener("load", onLoad);
+      if (onError) s.addEventListener("error", onError);
       document.head.appendChild(s);
-      return () => { try { s.remove(); } catch {} };
+      return () => {
+        try {
+          s.remove();
+        } catch {
+        }
+      };
     } else if (dangerouslySetInnerHTML && dangerouslySetInnerHTML.__html) {
-      const s = document.createElement('script');
+      const s = document.createElement("script");
       if (id) s.id = id;
       s.text = dangerouslySetInnerHTML.__html;
       document.head.appendChild(s);
-      return () => { try { s.remove(); } catch {} };
+      return () => {
+        try {
+          s.remove();
+        } catch {
+        }
+      };
     } else if (children) {
-      const s = document.createElement('script');
+      const s = document.createElement("script");
       if (id) s.id = id;
-      s.text = typeof children === 'string' ? children : String(children);
+      s.text = typeof children === "string" ? children : String(children);
       document.head.appendChild(s);
-      return () => { try { s.remove(); } catch {} };
+      return () => {
+        try {
+          s.remove();
+        } catch {
+        }
+      };
     }
   }, [src, id]);
   return null;
 }
+export {
+  Script as default
+};

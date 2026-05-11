@@ -69,9 +69,10 @@
     }
   </style>
 
-  <!-- React 19 is ESM-only (no UMD). Use importmap + esm.sh. The
-       "react-datepicker/" prefix entry lets sub-paths like
-       "react-datepicker/dist/react-datepicker.css" resolve. -->
+  <!-- React 19 is ESM-only (no UMD). Use importmap + esm.sh.
+       Source files were pre-transpiled (JSX → JS) so the browser can run
+       them directly without a service worker. Bare specifiers in those
+       files (e.g. `import React from "react"`) resolve via this importmap. -->
   <script type="importmap">
   {
     "imports": {
@@ -80,7 +81,6 @@
       "react-dom":         "https://esm.sh/react-dom@19.2.4",
       "react-dom/client":  "https://esm.sh/react-dom@19.2.4/client",
       "react-datepicker":  "https://esm.sh/react-datepicker@8.3.0?deps=react@19.2.4,react-dom@19.2.4",
-      "react-datepicker/": "https://esm.sh/react-datepicker@8.3.0/",
       "@heroicons/react/24/outline": "https://esm.sh/@heroicons/react@2.2.0/24/outline?deps=react@19.2.4",
       "@heroicons/react/24/solid":   "https://esm.sh/@heroicons/react@2.2.0/24/solid?deps=react@19.2.4",
       "@heroicons/react/20/solid":   "https://esm.sh/@heroicons/react@2.2.0/20/solid?deps=react@19.2.4"
@@ -140,39 +140,8 @@
     </div>
   </div>
 
-  <!-- Register the service worker, then inject the entry as an ES module once
-       the SW is controlling the page. On first load, no reload is needed —
-       we wait for the controllerchange event (SW calls clients.claim() in its
-       activate handler) and then inject the script. -->
-  <script>
-  (async function () {
-    function loadEntry() {
-      var s = document.createElement('script');
-      s.type = 'module';
-      s.src = '/src/main.jsx';
-      document.body.appendChild(s);
-    }
-
-    if (!('serviceWorker' in navigator)) {
-      console.error('No service worker support; cannot transpile .jsx in the browser.');
-      return;
-    }
-
-    try {
-      await navigator.serviceWorker.register('/sw.js');
-    } catch (e) {
-      console.error('SW register failed:', e);
-      return;
-    }
-
-    if (navigator.serviceWorker.controller) {
-      loadEntry();
-    } else {
-      navigator.serviceWorker.addEventListener('controllerchange', function () {
-        loadEntry();
-      }, { once: true });
-    }
-  })();
-  </script>
+  <!-- Entry: pre-transpiled, served directly as ES module. No service
+       worker required. -->
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>

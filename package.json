@@ -1,9 +1,14 @@
 {
   "name": "moving-papa-res",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Moving Papa marketing site. Static; served by GitHub Pages. React 19 + Babel Standalone in the browser; no build step.",
+  "description": "Moving Papa marketing site. Static; served by GitHub Pages. Pre-transpiled JSX -> JS (no service worker, no runtime Babel). React 19 + react-datepicker + heroicons loaded via importmap from esm.sh.",
   "scripts": {
-    "serve": "npx http-server -p 8080 ."
+    "serve": "npx http-server -p 8080 .",
+    "transpile": "node transpile.mjs",
+    "repair": "node repair.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
   }
 }

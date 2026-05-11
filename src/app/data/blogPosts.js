@@ -1,28 +1,26 @@
-import { BlogPost } from '/src/app/types/blog.js';
-
-export const blogPosts: BlogPost[] = [
+const blogPosts = [
   {
-    id: '1',
-    title: 'Why Hiring Local Toronto Movers Makes All the Difference',
-    slug: 'hiring-local-toronto-movers',
-    excerpt: 'When planning a move in Toronto, choosing a local moving company can really impact your experience. Discover why going local matters for efficiency, service, and peace of mind.',
-    content: `When planning a move, especially in a city as dynamic and fast-paced as Toronto, there's one decision that can really impact your experience: choosing a local moving company. While there are plenty of big-name or national brands out there, hiring a local Toronto mover—like Moving Papa—can make all the difference when it comes to efficiency, service and peace of mind. Here's why going local matters.
+    id: "1",
+    title: "Why Hiring Local Toronto Movers Makes All the Difference",
+    slug: "hiring-local-toronto-movers",
+    excerpt: "When planning a move in Toronto, choosing a local moving company can really impact your experience. Discover why going local matters for efficiency, service, and peace of mind.",
+    content: `When planning a move, especially in a city as dynamic and fast-paced as Toronto, there's one decision that can really impact your experience: choosing a local moving company. While there are plenty of big-name or national brands out there, hiring a local Toronto mover\u2014like Moving Papa\u2014can make all the difference when it comes to efficiency, service and peace of mind. Here's why going local matters.
 
 ## 1. We Know Toronto Inside and Out
 
 We know all the unique set of moving challenges that come with Toronto. This could be narrow downtown streets, suburban detours and tricky condo loading docks, we know how to navigate them. Whether it's avoiding traffic on the Gardiner during rush hour, finding parking near Yonge and Bloor, or understanding building protocols in high-rises across the city, our crews have seen it all.
 
-That kind of local knowledge saves time—and in moving, time is everything.
+That kind of local knowledge saves time\u2014and in moving, time is everything.
 
 ## 2. Personalized Service, Not a One-Size-Fits-All Approach
 
 Local movers rely heavily on word-of-mouth and repeat business, which means our reputation matters. At Moving Papa, we're not just trying to squeeze you into a national schedule or push unnecessary services. We take the time to understand what you need and offer solutions that actually make sense for your move.
 
-Whether you're relocating a one-bedroom apartment in Liberty Village or moving your family home across North York, our team adapts to your situation—not the other way around.
+Whether you're relocating a one-bedroom apartment in Liberty Village or moving your family home across North York, our team adapts to your situation\u2014not the other way around.
 
 ## 3. Faster Response Times
 
-Need to move on short notice? Have a question or concern about your booking? A local company is just a quick call away—no long wait times, no bouncing around between departments. We're right here in Toronto, which means we can respond faster, show up on time and adjust to last-minute changes when needed.
+Need to move on short notice? Have a question or concern about your booking? A local company is just a quick call away\u2014no long wait times, no bouncing around between departments. We're right here in Toronto, which means we can respond faster, show up on time and adjust to last-minute changes when needed.
 
 ## 4. Supporting the Local Economy
 
@@ -34,22 +32,22 @@ As you know, moving is stressful. Working with a local team means fewer misunder
 
 ## 6. Accountability You Can Trust
 
-Local companies thrive on trust. We work hard to earn and keep our customers' confidence because we know you're not just a number—you're a neighbor. When something unexpected comes up, we're here to make it right.
+Local companies thrive on trust. We work hard to earn and keep our customers' confidence because we know you're not just a number\u2014you're a neighbor. When something unexpected comes up, we're here to make it right.
 
 If you're planning a move and want a smooth, professional experience from people who actually know Toronto, give Moving Papa a call. We're local, we're experienced and we're ready to get you moving.`,
-    author: 'Moving Papa Team',
-    publishedAt: '2024-12-01',
+    author: "Moving Papa Team",
+    publishedAt: "2024-12-01",
     featured: true,
-    tags: ['Toronto Moving', 'Local Movers', 'Moving Tips'],
-    category: 'Moving Tips',
-    readingTime: '4 min read',
-    image: 'residentialMovingImg.jpg'
+    tags: ["Toronto Moving", "Local Movers", "Moving Tips"],
+    category: "Moving Tips",
+    readingTime: "4 min read",
+    image: "residentialMovingImg.jpg"
   },
   {
-    id: '2',
-    title: 'Top 5 Mistakes to Avoid When Hiring a Moving Company in Toronto',
-    slug: 'top-5-mistakes-hiring-moving-company-toronto',
-    excerpt: 'Hiring the right moving company can make or break your moving day. Learn the most common mistakes Toronto residents make when choosing movers and how to avoid them.',
+    id: "2",
+    title: "Top 5 Mistakes to Avoid When Hiring a Moving Company in Toronto",
+    slug: "top-5-mistakes-hiring-moving-company-toronto",
+    excerpt: "Hiring the right moving company can make or break your moving day. Learn the most common mistakes Toronto residents make when choosing movers and how to avoid them.",
     content: `Hiring a moving company should make your life easier, not harder. But unfortunately, not all moving experiences are created equal. In a busy city like Toronto, where traffic, high-rise buildings, and tight schedules come into play, choosing the right movers can make or break your moving day.
 
 At Moving Papa, we've seen firsthand how hiring the wrong company can turn a simple move into a stressful and costly ordeal. Whether you're relocating within the city or moving to the suburbs, avoiding these five common mistakes can help ensure a smooth and successful move.
@@ -103,19 +101,19 @@ Even if you are still finalizing your move date, it is worth reaching out to mov
 Hiring a moving company is more than just renting a truck. It is about trusting someone to handle your belongings and support you during a major life change. By avoiding the most common hiring mistakes you can protect yourself from unnecessary headaches and ensure a much smoother move.
 
 At Moving Papa, we are proud to be a trusted local choice for Toronto residents. Our team is experienced, transparent, and focused on making your move as seamless as possible. If you are planning a move and want to avoid the typical pitfalls, we are here to help.`,
-    author: 'Moving Papa Team',
-    publishedAt: '2025-12-08',
+    author: "Moving Papa Team",
+    publishedAt: "2025-12-08",
     featured: true,
-    tags: ['Toronto Moving', 'Moving Tips', 'Hiring Movers', 'Moving Mistakes'],
-    category: 'Moving Tips',
-    readingTime: '6 min read',
-    image: 'truck_img.webp'
+    tags: ["Toronto Moving", "Moving Tips", "Hiring Movers", "Moving Mistakes"],
+    category: "Moving Tips",
+    readingTime: "6 min read",
+    image: "truck_img.webp"
   },
   {
-    id: '3',
-    title: 'How to Save Money on Your Toronto Move Without Cutting Corners',
-    slug: 'save-money-toronto-move-without-cutting-corners',
-    excerpt: 'Moving in Toronto can get expensive, but saving money doesn&apos;t mean sacrificing quality. Discover smart, practical ways to keep costs down while ensuring a smooth move.',
+    id: "3",
+    title: "How to Save Money on Your Toronto Move Without Cutting Corners",
+    slug: "save-money-toronto-move-without-cutting-corners",
+    excerpt: "Moving in Toronto can get expensive, but saving money doesn&apos;t mean sacrificing quality. Discover smart, practical ways to keep costs down while ensuring a smooth move.",
     content: `Moving in Toronto can get expensive quickly. Between hiring movers, buying supplies, and handling all the little things that pop up along the way, costs can add up before you know it. But saving money on your move doesn't have to mean sacrificing quality or doing everything yourself.
 
 At Moving Papa, we've worked with all kinds of budgets and moving situations. The good news is that there are smart, practical ways to keep costs down without risking damage to your belongings or burning yourself out. Here's how to save money on your Toronto move, the right way.
@@ -177,27 +175,27 @@ This small adjustment not only saves money on supplies, but also cuts down on wa
 Saving money on your Toronto move is all about being smart, prepared, and informed. You don't have to cut corners or take unnecessary risks, you just need to focus on the things that matter most. Declutter, plan ahead, pack efficiently, and choose a reliable, local company that values honesty and transparency.
 
 At Moving Papa, we're committed to helping our customers move affordably without compromising on service or quality. Whether you're on a tight budget or just want to make sure you're spending wisely, our team is here to help you get from A to B the right way.`,
-    author: 'Moving Papa Team',
-    publishedAt: '2025-12-08',
+    author: "Moving Papa Team",
+    publishedAt: "2025-12-08",
     featured: true,
-    tags: ['Toronto Moving', 'Moving Tips', 'Save Money', 'Budget Moving'],
-    category: 'Moving Tips',
-    readingTime: '7 min read',
-    image: 'packingImg.jpg'
+    tags: ["Toronto Moving", "Moving Tips", "Save Money", "Budget Moving"],
+    category: "Moving Tips",
+    readingTime: "7 min read",
+    image: "packingImg.jpg"
   }
 ];
-
-// Helper function to get blog post by slug
-export function getBlogPostBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find(post => post.slug === slug);
+function getBlogPostBySlug(slug) {
+  return blogPosts.find((post) => post.slug === slug);
 }
-
-// Helper function to get all blog posts
-export function getAllBlogPosts(): BlogPost[] {
+function getAllBlogPosts() {
   return blogPosts.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 }
-
-// Helper function to get featured blog posts
-export function getFeaturedBlogPosts(): BlogPost[] {
-  return blogPosts.filter(post => post.featured);
+function getFeaturedBlogPosts() {
+  return blogPosts.filter((post) => post.featured);
 }
+export {
+  blogPosts,
+  getAllBlogPosts,
+  getBlogPostBySlug,
+  getFeaturedBlogPosts
+};

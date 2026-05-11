@@ -1,15 +1,21 @@
-// next/font shim. Returns a no-op font object with empty className.
-// To actually load a Google font, include a <link> in index.html.
 function makeFont() {
-  return function (_opts) {
-    return { className: '', style: {}, variable: '' };
+  return function(_opts) {
+    return { className: "", style: {}, variable: "" };
   };
 }
-
-export const Libre_Baskerville = makeFont();
-export const Inter = makeFont();
-export const Roboto = makeFont();
-export const Open_Sans = makeFont();
-export const Geist = makeFont();
-export const Geist_Mono = makeFont();
-export default makeFont();
+const Libre_Baskerville = makeFont();
+const Inter = makeFont();
+const Roboto = makeFont();
+const Open_Sans = makeFont();
+const Geist = makeFont();
+const Geist_Mono = makeFont();
+var font_default = makeFont();
+export {
+  Geist,
+  Geist_Mono,
+  Inter,
+  Libre_Baskerville,
+  Open_Sans,
+  Roboto,
+  font_default as default
+};
