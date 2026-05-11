@@ -65,11 +65,26 @@ function wireBox(pickupInput, destInput, submitBtn, callbackBtn) {
   }
 }
 
+function prefetchFinalstep() {
+  // Hint the browser to preload the finalstep HTML so the navigation feels
+  // instant when the user clicks "Get a Quote". Idempotent — drops the tag
+  // only once per URL even if called multiple times.
+  const href = detectFinalstepUrl();
+  if (document.querySelector(`link[rel="prefetch"][href="${href}"]`)) return;
+  const link = document.createElement('link');
+  link.rel = 'prefetch';
+  link.as = 'document';
+  link.href = href;
+  document.head.appendChild(link);
+}
+
 export function initGetQuote() {
   // The "Get a Quote" submit button is the unique signal — find every one,
   // walk up to a common container, then look for sibling inputs/buttons.
   const submits = Array.from(document.querySelectorAll('button[type="submit"]'))
     .filter((b) => b.textContent.trim() === 'Get a Quote');
+
+  if (submits.length > 0) prefetchFinalstep();
 
   for (const submit of submits) {
     // The container is roughly the get-quote card. Walk up until we find a
