@@ -2,8 +2,10 @@
 //
 // - .jsx/.tsx/.ts/.js fetched as scripts (same-origin): transpiled with Babel.
 // - .png/.jpg/.jpeg/.gif/.webp/.svg/.avif/.ico fetched AS A MODULE IMPORT:
-//   returned as a JS module that exports the URL string. Mimics what
-//   bundlers do at build time.
+//   returned as a JS module whose default export is a Next.js-style static
+//   image object: { src: "/path" }. This matches what `next/image`'s static
+//   import returns, so code like `import logo from './logo.png'` then
+//   `logo.src` works as written. The <Image> shim also accepts this shape.
 // - .css fetched AS A MODULE IMPORT (any origin): returned as a JS module
 //   that injects a <link rel="stylesheet"> tag pointing at the original URL.
 //   The browser then loads the CSS via the link tag with proper MIME handling.
@@ -15,7 +17,7 @@
 
 importScripts('https://unpkg.com/@babel/standalone@7.26.4/babel.min.js');
 
-const CACHE = 'mp-transpile-v4';
+const CACHE = 'mp-transpile-v5';
 const SOURCE_RE = /\.(jsx?|tsx?)$/;
 const IMAGE_RE = /\.(png|jpe?g|gif|webp|svg|avif|ico)$/i;
 const CSS_RE   = /\.css$/i;
@@ -61,10 +63,11 @@ self.addEventListener('fetch', (event) => {
   // Everything below is same-origin only.
   if (url.origin !== self.location.origin) return;
 
-  // Image imported as a module — return a stub module exporting the URL.
+  // Image imported as a module — return a Next-style static image object.
+  // The codebase relies on `.src` (and the <Image> shim handles either shape).
   if (event.request.destination === 'script' && IMAGE_RE.test(path)) {
     event.respondWith(new Response(
-      'export default ' + JSON.stringify(path) + ';',
+      'export default { src: ' + JSON.stringify(path) + ' };',
       {
         headers: {
           'Content-Type': 'application/javascript; charset=utf-8',
