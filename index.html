@@ -33,24 +33,6 @@
        makes the output an ES module so the importmap resolves bare specifiers. -->
   <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
 
-  <!-- Register service worker that transpiles .jsx/.tsx imports on the fly. -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').then(function(reg) {
-        if (!navigator.serviceWorker.controller) {
-          // First load: SW is installing; reload once it controls the page so
-          // subsequent .jsx fetches go through the transpiler.
-          reg.addEventListener('updatefound', function() {
-            var sw = reg.installing;
-            if (sw) sw.addEventListener('statechange', function() {
-              if (sw.state === 'activated') location.reload();
-            });
-          });
-        }
-      }).catch(function(e) { console.error('SW register failed:', e); });
-    }
-  </script>
-
   <!-- process.env stub: the old Next code reads NEXT_PUBLIC_* values at
        module level. These are public-by-design keys; embed them directly. -->
   <script>
@@ -97,7 +79,43 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KHD5RLMK" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1561438818562563&ev=PageView&noscript=1" alt=""/></noscript>
   <div id="root"></div>
-  <!-- Babel transpiles main.jsx; service worker transpiles its .jsx imports. -->
-  <script type="text/babel" data-type="module" data-presets="react" src="/src/main.jsx"></script>
+
+  <!-- Register the service worker and only inject the Babel entry once the SW
+       is controlling the page. The SW rewrites .jsx fetches to JS with proper
+       MIME; without it, GH Pages serves /src/App.jsx as text/jsx and the
+       browser rejects the module import. -->
+  <script>
+  (async function () {
+    function loadEntry() {
+      var s = document.createElement('script');
+      s.type = 'text/babel';
+      s.dataset.type = 'module';
+      s.dataset.presets = 'react';
+      s.src = '/src/main.jsx';
+      document.body.appendChild(s);
+    }
+
+    if (!('serviceWorker' in navigator)) { loadEntry(); return; }
+
+    try {
+      await navigator.serviceWorker.register('/sw.js');
+    } catch (e) {
+      console.error('SW register failed:', e);
+      loadEntry();
+      return;
+    }
+
+    if (navigator.serviceWorker.controller) {
+      // SW already controlling this page — safe to load entry.
+      loadEntry();
+    } else {
+      // First load: wait for SW to take control, then reload so all
+      // subsequent .jsx fetches go through the transpiler.
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        location.reload();
+      }, { once: true });
+    }
+  })();
+  </script>
 </body>
 </html>
