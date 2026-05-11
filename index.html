@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Moving Papa</title>
   <link rel="icon" href="/favicon.ico"/>
+  <!-- Preload likely LCP candidates so the browser can start fetching them
+       in parallel with JS instead of waiting for React to render. Scoped by
+       viewport so we don't waste bytes on the wrong one. Run PSI on the
+       deployed site to confirm which is actually the LCP element on each
+       breakpoint; adjust here accordingly. -->
+  <link rel="preload" as="image" href="/src/images/heart-res.webp" fetchpriority="high" media="(min-width: 768px)"/>
+  <link rel="preload" as="image" href="/src/images/reviewtagleft.png" fetchpriority="high" media="(max-width: 767px)"/>
+  <link rel="preload" as="image" href="/src/images/reviewtagright.png" media="(max-width: 767px)"/>
+
   <link rel="stylesheet" href="/css/globals.css"/>
   <link rel="stylesheet" href="/css/landing.css"/>
   <link rel="stylesheet" href="/css/landingcomm.css"/>
