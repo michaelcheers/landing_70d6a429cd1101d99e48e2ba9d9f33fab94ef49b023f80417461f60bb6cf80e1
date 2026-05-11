@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState, useMemo, useCall
 import { ROUTES, matchRoute } from './routes.js';
 import { applySubdomainRewrite } from './subdomain.js';
 import Head from '../components/Head.jsx';
+import Layout from '../components/Layout.jsx';
 
 const SERVICE_SLUG_MAP = {
   residential: 'local-move',
@@ -108,10 +109,14 @@ export default function Router() {
     back: () => history.back(),
   }), [pathname, search, params, navigate]);
 
+  // Layout (with Header + Footer) is rendered INSIDE the provider so its
+  // descendants — Header in particular — can use useRouter/usePathname.
   return (
     <RouterContext.Provider value={ctxValue}>
       <Head meta={meta} pathname={pathname} />
-      <PageComp params={params} />
+      <Layout>
+        <PageComp params={params} />
+      </Layout>
     </RouterContext.Provider>
   );
 }
