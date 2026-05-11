@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App.jsx';
+import App from '/src/App.jsx';
 
 // Deep-link recovery from 404.html shim.
 const deep = sessionStorage.getItem('mp_deeplink');
