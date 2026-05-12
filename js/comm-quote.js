@@ -72,32 +72,45 @@ export function initCommQuote() {
   const lastmileBtn = toggleButtons.find(b => b.textContent.trim() === 'Last-mile');
   if (!movingBtn || !lastmileBtn) return;
 
-  // The Moving form's container is the nearest ancestor that holds both
-  // the toggle group AND the autocomplete inputs. The submit button lives
-  // right after the form area.
   const toggleGroup = movingBtn.closest('.toggle-group');
   if (!toggleGroup) return;
 
-  const card = toggleGroup.parentElement; // .flex-col w-full container
+  // The outer card is the toggle group's parent (.pb-10 container).
+  const card = toggleGroup.parentElement;
   if (!card) return;
 
-  // The Moving form is the div containing the two "Enter Location" inputs
-  // that's a sibling of the toggle group.
   const enterLocInputs = card.querySelectorAll('input[placeholder="Enter Location"]');
-  const movingForm = enterLocInputs.length ? enterLocInputs[0].closest('div.flex-col, div')?.parentElement : null;
-  // More reliable: the immediate child of card that contains the inputs.
-  const movingFormRoot = (() => {
-    if (!enterLocInputs.length) return null;
-    let n = enterLocInputs[0];
-    while (n && n.parentElement !== card) n = n.parentElement;
-    return n;
-  })();
+  if (enterLocInputs.length < 1) return;
 
-  // The Get-a-Quote action button is the last button in the card whose text
-  // is "Get a Quote" and isn't type=submit (the type=submit one is the
-  // shared CTA-final box, not this card).
+  // The Moving form is the lowest common ancestor of the two Enter-Location
+  // inputs — i.e. the <div> wrapper React renders inside `{type === "moving"
+  // && <div>...</div>}`. We hide *only* this node when switching modes; the
+  // action button and toggle group are siblings further up.
+  const movingFormRoot = (() => {
+    if (enterLocInputs.length < 2) {
+      // Fall back to the input's immediate-card-child ancestor.
+      let n = enterLocInputs[0];
+      while (n && n.parentElement && n.parentElement !== card) n = n.parentElement;
+      return n;
+    }
+    const ancestors = new Set();
+    for (let n = enterLocInputs[0]; n; n = n.parentElement) ancestors.add(n);
+    for (let n = enterLocInputs[1]; n; n = n.parentElement) {
+      if (ancestors.has(n)) return n;
+    }
+    return null;
+  })();
+  if (!movingFormRoot) return;
+
+  // The Get-a-Quote action button is the last button inside the card that
+  // isn't a toggle button and isn't type=submit (the type=submit one is the
+  // shared CTA-final box). It lives in the same `.flex-col w-full` block
+  // as the moving form, but as a sibling — never inside movingFormRoot.
   const actionBtn = Array.from(card.querySelectorAll('button'))
-    .filter(b => b.type !== 'submit' && b.textContent.trim().startsWith('Get a Quote'))
+    .filter(b => !b.classList.contains('toggle-button')
+              && b.type !== 'submit'
+              && b.textContent.trim().startsWith('Get a Quote')
+              && !movingFormRoot.contains(b))
     .pop();
 
   // Wire pickup/destination autocomplete on the Moving form's inputs.
