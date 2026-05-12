@@ -9,6 +9,7 @@
 import { attachAutocomplete, loadGoogleMaps } from './lib/places.js';
 import { store } from './lib/store.js';
 import { submitLead, BRANCH, MP_LOCATION } from './lib/service1.js';
+import { loadFlatpickr } from './lib/flatpickr.js';
 
 function detectBranchAndService() {
   const p = location.pathname;
@@ -69,32 +70,33 @@ export function initFinalStep() {
   if (pickup) attachAutocomplete(pickup, (a) => store.setPickup(a));
   if (dest) attachAutocomplete(dest, (a) => store.setDestination(a));
 
-  // Convert the date placeholder input to a real date input.
-  if (dateInput && dateInput.type !== 'date') {
-    dateInput.type = 'date';
-    const today = new Date();
-    const max = new Date(); max.setDate(today.getDate() + 360);
-    dateInput.min = today.toISOString().slice(0, 10);
-    dateInput.max = max.toISOString().slice(0, 10);
-    // Safari/iOS sets an intrinsic min-width on <input type="date"> based on
-    // the native picker, which can overflow the form on small viewports.
-    // Force it back to the parent's width.
-    dateInput.style.width = '100%';
-    dateInput.style.minWidth = '0';
-    dateInput.style.boxSizing = 'border-box';
-    // The react-datepicker-wrapper / __input-container divs default to
-    // inline-block when react-datepicker's CSS is loaded; with that CSS
-    // gone, normalize them to full-width block so the input fills its row.
-    const wrapper = dateInput.closest('.react-datepicker-wrapper');
-    if (wrapper) {
-      wrapper.style.display = 'block';
-      wrapper.style.width = '100%';
-    }
-    const innerWrap = dateInput.closest('.react-datepicker__input-container');
-    if (innerWrap) {
-      innerWrap.style.display = 'block';
-      innerWrap.style.width = '100%';
-    }
+  // Wire flatpickr on the date input. The native <input type="date"> picker
+  // (especially on iOS Safari) had a bunch of layout quirks and a worse
+  // calendar UX than what the original react-datepicker component offered.
+  if (dateInput && !dateInput.dataset.fpAttached) {
+    dateInput.dataset.fpAttached = '1';
+    // Keep the input as plain text so iOS doesn't auto-open the native picker
+    // before flatpickr has a chance to attach.
+    dateInput.setAttribute('readonly', 'readonly');
+    dateInput.type = 'text';
+    loadFlatpickr().then((flatpickr) => {
+      const today = new Date();
+      const max = new Date(); max.setDate(today.getDate() + 360);
+      flatpickr(dateInput, {
+        minDate: today,
+        maxDate: max,
+        dateFormat: 'Y-m-d',
+        // Picker styling: position above the input on small screens so the
+        // form below stays visible.
+        position: 'auto',
+        disableMobile: true,
+      });
+    }).catch(() => {
+      // Fallback if flatpickr CDN is unreachable: revert to type=date so
+      // the user can still pick something.
+      dateInput.removeAttribute('readonly');
+      dateInput.type = 'date';
+    });
   }
 
   form.addEventListener('submit', async (e) => {
