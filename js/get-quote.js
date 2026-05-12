@@ -86,19 +86,28 @@ export function initGetQuote() {
 
   if (submits.length > 0) prefetchFinalstep();
 
+  // Pickup-input placeholders, in priority order. Commercial pages use
+  // "Enter Location" (commGetQuote.tsx renders a single LocationAutocomplete).
+  const PICKUP_PLACEHOLDERS = ['Move Out Address', 'Enter Location'];
+  const DEST_PLACEHOLDERS = ['Move In Address'];
+  const pickupSel = PICKUP_PLACEHOLDERS.map(p => `input[placeholder="${p}"]`).join(', ');
+  const destSel = DEST_PLACEHOLDERS.map(p => `input[placeholder="${p}"]`).join(', ');
+
   for (const submit of submits) {
     // The container is roughly the get-quote card. Walk up until we find a
-    // node that contains both the submit + at least one "Move Out Address"
-    // input — that's the bounding box.
+    // node containing at least one pickup input — that's the bounding box.
     let container = submit;
     for (let i = 0; i < 8 && container.parentElement; i++) {
       container = container.parentElement;
-      const inp = container.querySelector('input[placeholder="Move Out Address"]');
-      if (inp) break;
+      if (container.querySelector(pickupSel)) break;
     }
 
-    const pickup = container.querySelector('input[placeholder="Move Out Address"]');
-    const dest = container.querySelector('input[placeholder="Move In Address"]');
+    // A commercial form may have two "Enter Location" inputs (pickup + dest).
+    const pickupInputs = container.querySelectorAll(pickupSel);
+    const pickup = pickupInputs[0];
+    // If we matched "Enter Location" for pickup, a second "Enter Location" is
+    // the destination; otherwise fall back to "Move In Address".
+    const dest = pickupInputs.length > 1 ? pickupInputs[1] : container.querySelector(destSel);
     // "Get a Call from Us" sibling button — the only type=button with that text.
     const callback = Array.from(container.querySelectorAll('button[type="button"]'))
       .find((b) => b.textContent.includes('Get a Call from Us'));
