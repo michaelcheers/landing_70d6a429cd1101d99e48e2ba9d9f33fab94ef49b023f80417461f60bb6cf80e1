@@ -76,6 +76,25 @@ export function initFinalStep() {
     const max = new Date(); max.setDate(today.getDate() + 360);
     dateInput.min = today.toISOString().slice(0, 10);
     dateInput.max = max.toISOString().slice(0, 10);
+    // Safari/iOS sets an intrinsic min-width on <input type="date"> based on
+    // the native picker, which can overflow the form on small viewports.
+    // Force it back to the parent's width.
+    dateInput.style.width = '100%';
+    dateInput.style.minWidth = '0';
+    dateInput.style.boxSizing = 'border-box';
+    // The react-datepicker-wrapper / __input-container divs default to
+    // inline-block when react-datepicker's CSS is loaded; with that CSS
+    // gone, normalize them to full-width block so the input fills its row.
+    const wrapper = dateInput.closest('.react-datepicker-wrapper');
+    if (wrapper) {
+      wrapper.style.display = 'block';
+      wrapper.style.width = '100%';
+    }
+    const innerWrap = dateInput.closest('.react-datepicker__input-container');
+    if (innerWrap) {
+      innerWrap.style.display = 'block';
+      innerWrap.style.width = '100%';
+    }
   }
 
   form.addEventListener('submit', async (e) => {
