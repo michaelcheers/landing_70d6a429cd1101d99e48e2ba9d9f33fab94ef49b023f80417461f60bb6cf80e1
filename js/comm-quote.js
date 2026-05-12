@@ -103,12 +103,12 @@ export function initCommQuote() {
   if (!movingFormRoot) return;
 
   // The Get-a-Quote action button is the last button inside the card that
-  // isn't a toggle button and isn't type=submit (the type=submit one is the
-  // shared CTA-final box). It lives in the same `.flex-col w-full` block
-  // as the moving form, but as a sibling — never inside movingFormRoot.
+  // isn't a toggle button. Check the raw HTML attribute, NOT `.type` — the
+  // DOM property defaults to 'submit' even when no attribute is set, which
+  // would falsely exclude the action button (which has no type attribute).
   const actionBtn = Array.from(card.querySelectorAll('button'))
     .filter(b => !b.classList.contains('toggle-button')
-              && b.type !== 'submit'
+              && b.getAttribute('type') !== 'submit'
               && b.textContent.trim().startsWith('Get a Quote')
               && !movingFormRoot.contains(b))
     .pop();
