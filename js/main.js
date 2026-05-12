@@ -6,6 +6,7 @@ import { captureUtm } from './lib/store.js';
 import { initFloatingLabels } from './lib/floating-label.js';
 import { initHeader } from './header.js';
 import { initGetQuote } from './get-quote.js';
+import { initCommQuote } from './comm-quote.js';
 import { initFinalStep } from './final-step.js';
 import { initContactForm } from './contact-form.js';
 import { initBookOnline } from './book-online.js';
@@ -14,6 +15,7 @@ function start() {
   captureUtm();
   initHeader();
   initGetQuote();
+  initCommQuote();
   initFinalStep();
   initContactForm();
   // Floating-label shim runs last — needs the form inputs in their final
