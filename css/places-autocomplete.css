@@ -1,0 +1,72 @@
+/* Google Places Autocomplete dropdown — restyled because Google's own
+ * <style> injection is CSP-blocked. The .pac-* class names and DOM
+ * structure come from the Maps SDK; we just style the appearance.
+ *
+ * Per Google's TOS, attribution ("powered by Google") must be displayed
+ * when Places is used without a visible Google Map. The .pac-logo:after
+ * rule below provides it as text since the upstream background-image
+ * version can't load.
+ */
+
+.pac-container {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  margin-top: 4px;
+  font-family: inherit;
+  overflow: hidden;
+  z-index: 10001;
+}
+
+.pac-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #1f2937;
+  border-top: 1px solid #f3f4f6;
+}
+
+.pac-item:first-child {
+  border-top: 0;
+}
+
+.pac-item:hover,
+.pac-item-selected {
+  background-color: #f3f4f6;
+}
+
+.pac-item-query {
+  font-weight: 600;
+  font-size: 14px;
+  color: #103928;
+  padding-right: 4px;
+}
+
+.pac-matched {
+  font-weight: 700;
+}
+
+/* Hide Google's marker-icon sprite — they couldn't load it under our CSP
+ * and the address text alone is plenty of indication. */
+.pac-icon,
+.pac-icon-marker,
+.pac-icon-search {
+  display: none;
+}
+
+/* Google's "powered by Google" logo lives in a background-image on
+ * .pac-logo:after. Since their CSS is blocked, replace with text. */
+.pac-logo:after {
+  content: 'powered by Google';
+  display: block;
+  height: auto;
+  padding: 8px 14px;
+  text-align: right;
+  font-size: 11px;
+  color: #6b7280;
+  background-color: #fafafa;
+  background-image: none;
+  border-top: 1px solid #f3f4f6;
+}
