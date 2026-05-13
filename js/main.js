@@ -11,10 +11,12 @@ import { initFinalStep } from './final-step.js';
 import { initContactForm } from './contact-form.js';
 import { initBookOnline } from './book-online.js';
 import { initIframeSync } from './iframe-sync.js';
+import { initPersistUrlParams } from './persist-url-params.js';
 
 function start() {
   initIframeSync();
   captureUtm();
+  initPersistUrlParams();
   initHeader();
   initGetQuote();
   initCommQuote();

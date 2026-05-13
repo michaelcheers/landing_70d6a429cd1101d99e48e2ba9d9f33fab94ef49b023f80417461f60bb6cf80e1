@@ -10,6 +10,7 @@ import { attachAutocomplete, loadGoogleMaps } from './lib/places.js';
 import { store } from './lib/store.js';
 import { submitLead, BRANCH, MP_LOCATION } from './lib/service1.js';
 import { loadFlatpickr } from './lib/flatpickr.js';
+import { mergeUrlParams } from './persist-url-params.js';
 
 function detectBranchAndService() {
   const p = location.pathname;
@@ -144,7 +145,7 @@ export function initFinalStep() {
       clearTimeout(timeoutId);
       if (res.ok || res.status === 409) {
         // 409 = Service1 idempotency (already received) — still a success path.
-        location.href = '/thankyou';
+        location.href = mergeUrlParams('/thankyou');
         return;
       }
       throw new Error('HTTP ' + res.status);
@@ -152,7 +153,7 @@ export function initFinalStep() {
       clearTimeout(timeoutId);
       if (err.name === 'AbortError') {
         // Service1 dedupes on email/phone — redirect optimistically.
-        location.href = '/thankyou';
+        location.href = mergeUrlParams('/thankyou');
         return;
       }
       alert("We couldn't submit your request. Please try again, or call (647) 251-8188.");

@@ -6,6 +6,7 @@
 
 import { attachAutocomplete } from './lib/places.js';
 import { store } from './lib/store.js';
+import { mergeUrlParams } from './persist-url-params.js';
 
 // Map of URL prefix → finalstep path. Vancouver pages live under /vancouver,
 // Ottawa under /ottawa, etc. Storage service pages route to /finalstep/storage.
@@ -52,7 +53,7 @@ function wireBox(pickupInput, destInput, submitBtn, callbackBtn) {
         alert('Please enter an address before getting a quote.');
         return;
       }
-      location.href = detectFinalstepUrl();
+      location.href = mergeUrlParams(detectFinalstepUrl());
     });
   }
 
@@ -60,7 +61,7 @@ function wireBox(pickupInput, destInput, submitBtn, callbackBtn) {
     callbackBtn.dataset.mpWired = '1';
     callbackBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      location.href = detectCallbackUrl();
+      location.href = mergeUrlParams(detectCallbackUrl());
     });
   }
 }

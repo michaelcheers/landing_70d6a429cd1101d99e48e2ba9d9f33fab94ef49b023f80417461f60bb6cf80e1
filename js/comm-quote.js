@@ -10,6 +10,7 @@
 import { attachAutocomplete } from './lib/places.js';
 import { store } from './lib/store.js';
 import { submitLead } from './lib/service1.js';
+import { mergeUrlParams } from './persist-url-params.js';
 
 function detectCity() {
   const p = location.pathname;
@@ -167,7 +168,7 @@ export function initCommQuote() {
     actionBtn.addEventListener('click', async (e) => {
       e.preventDefault();
       if (currentMode === 'moving') {
-        location.href = detectFinalstepCommercialUrl();
+        location.href = mergeUrlParams(detectFinalstepCommercialUrl());
         return;
       }
       await submitLastmile(actionBtn);
@@ -231,7 +232,7 @@ async function submitLastmile(btn) {
       UtmContent: utm.utm_content || null,
     });
     if (res.ok || res.status === 409) {
-      location.href = `/thankyou?formType=lastmile_quote&businessName=${encodeURIComponent(firstName + ' ' + lastName)}`;
+      location.href = mergeUrlParams(`/thankyou?formType=lastmile_quote&businessName=${encodeURIComponent(firstName + ' ' + lastName)}`);
       return;
     }
     throw new Error('HTTP ' + res.status);

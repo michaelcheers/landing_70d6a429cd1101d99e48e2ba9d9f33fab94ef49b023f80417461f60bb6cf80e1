@@ -6,6 +6,7 @@
 
 import { submitLead } from './lib/service1.js';
 import { store } from './lib/store.js';
+import { mergeUrlParams } from './persist-url-params.js';
 
 function detectCity() {
   const p = location.pathname;
@@ -58,7 +59,7 @@ export function initContactForm() {
         UtmContent:  utm.utm_content  || null,
       });
       if (res.ok || res.status === 409) {
-        location.href = '/thankyou';
+        location.href = mergeUrlParams('/thankyou');
         return;
       }
       throw new Error('HTTP ' + res.status);
