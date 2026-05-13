@@ -1,0 +1,26 @@
+# Enforce LF line endings for text files regardless of OS or each
+# contributor's git autocrlf setting. The CSP we ship hashes the exact byte
+# content of inline scripts/styles in our HTML — if working copy and
+# deployed bytes disagree on line endings, the hashes don't match and the
+# browser rejects every inline script and style.
+*               text=auto eol=lf
+
+# Explicitly mark known-binary file types so git doesn't try to convert
+# them (and doesn't try to diff them as text).
+*.webp          binary
+*.png           binary
+*.jpg           binary
+*.jpeg          binary
+*.gif           binary
+*.ico           binary
+*.woff          binary
+*.woff2         binary
+*.ttf           binary
+*.otf           binary
+*.eot           binary
+*.mp4           binary
+*.webm          binary
+*.mp3           binary
+*.wav           binary
+*.pdf           binary
+*.zip           binary

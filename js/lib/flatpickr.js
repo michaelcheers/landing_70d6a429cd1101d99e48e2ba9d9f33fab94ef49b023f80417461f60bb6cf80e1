@@ -1,10 +1,15 @@
-// Loads flatpickr on demand. We bring it in from jsDelivr so we don't have
-// to bundle it — same pattern as Stripe/GoogleMaps elsewhere in this port.
+// Loads flatpickr on demand. Both the JS library and its stylesheets are
+// hosted locally — no external CDN dependency at runtime. CSP's path
+// restrictions on /js/ and /css/ cover them via 'self'-equivalent.
+//
+// To update: re-download from
+//   https://cdn.jsdelivr.net/npm/flatpickr@<version>/dist/flatpickr.min.js
+//   https://cdn.jsdelivr.net/npm/flatpickr@<version>/dist/flatpickr.min.css
+//   https://cdn.jsdelivr.net/npm/flatpickr@<version>/dist/themes/dark.css
 
-const FLATPICKR_JS = 'https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js';
-const FLATPICKR_CSS = 'https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css';
-// Dark theme is a closer match to the form (white-on-primary).
-const FLATPICKR_THEME = 'https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/themes/dark.css';
+const FLATPICKR_JS    = '/js/lib/flatpickr.min.js';
+const FLATPICKR_CSS   = '/css/flatpickr.min.css';
+const FLATPICKR_THEME = '/css/flatpickr-dark.css';
 
 let loader = null;
 export function loadFlatpickr() {
