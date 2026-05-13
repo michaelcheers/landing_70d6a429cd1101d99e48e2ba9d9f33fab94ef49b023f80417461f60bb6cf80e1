@@ -12,6 +12,7 @@ import { initContactForm } from './contact-form.js';
 import { initBookOnline } from './book-online.js';
 import { initIframeSync } from './iframe-sync.js';
 import { initPersistUrlParams } from './persist-url-params.js';
+import { initCarousels } from './carousel.js';
 
 function start() {
   initIframeSync();
@@ -20,6 +21,7 @@ function start() {
   initHeader();
   initGetQuote();
   initCommQuote();
+  initCarousels();
   initFinalStep();
   initContactForm();
   // Floating-label shim runs last — needs the form inputs in their final
