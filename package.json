@@ -6,7 +6,8 @@
   "scripts": {
     "serve": "npx http-server -p 8080 .",
     "transpile": "node transpile.mjs",
-    "repair": "node repair.mjs"
+    "repair": "node repair.mjs",
+    "replace-phone": "node scripts/replace-phone.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.0"

@@ -156,7 +156,7 @@ export function initFinalStep() {
         location.href = mergeUrlParams('/thankyou');
         return;
       }
-      alert("We couldn't submit your request. Please try again, or call (647) 251-8188.");
+      alert("We couldn't submit your request. Please try again, or call (833) 351-1791.");
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = submitBtn.dataset.origText || 'Get Quote Now'; }
     }
   });

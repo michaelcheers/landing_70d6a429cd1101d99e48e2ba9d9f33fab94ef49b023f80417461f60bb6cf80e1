@@ -64,7 +64,7 @@ export function initContactForm() {
       }
       throw new Error('HTTP ' + res.status);
     } catch (err) {
-      alert("We couldn't send your message. Please try again or call (647) 251-8188.");
+      alert("We couldn't send your message. Please try again or call (833) 351-1791.");
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = submitBtn.dataset.origText || 'Send Message'; }
     }
   });
