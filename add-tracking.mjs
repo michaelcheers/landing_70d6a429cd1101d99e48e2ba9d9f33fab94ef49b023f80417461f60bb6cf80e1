@@ -67,6 +67,7 @@ function collectGtmHashes(html) {
   while ((m = re.exec(html)) !== null) {
     const body = m[1];
     if (!body) continue;
+    if (/\bself\.__next_f\b/.test(body)) continue;
     if (
       body.includes('GTM-') ||
       body.includes('gtag(') ||
@@ -78,8 +79,21 @@ function collectGtmHashes(html) {
   return [...out];
 }
 
+function collectStaleHashes(html) {
+  const stale = new Set();
+  const re = /<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g;
+  let m;
+  while ((m = re.exec(html)) !== null) {
+    const body = m[1];
+    if (!body) continue;
+    if (/\bself\.__next_f\b/.test(body)) stale.add(sha256(body));
+  }
+  return stale;
+}
+
 function patchCsp(html) {
   const gtmHashes = collectGtmHashes(html);
+  const stale = collectStaleHashes(html);
   const re = /(<meta\s+http-equiv="Content-Security-Policy"\s+content=")([^"]+)(")/i;
   return html.replace(re, (m, pre, csp, post) => {
     const parts = csp.split(';').map(s => s.trim()).filter(Boolean);
@@ -92,6 +106,14 @@ function patchCsp(html) {
         for (const t of toks) if (!present.has(t)) parts[idx] += ' ' + t;
       }
     };
+    const stripStale = (dir) => {
+      const idx = parts.findIndex(p => new RegExp(`^${dir}\\b`, 'i').test(p));
+      if (idx === -1) return;
+      const toks = parts[idx].split(/\s+/);
+      const kept = toks.filter(t => !stale.has(t));
+      parts[idx] = kept.join(' ');
+    };
+    stripStale('script-src');
     ensure('script-src', [...ADD.scriptSrc, ...gtmHashes]);
     ensure('img-src',    ADD.imgSrc);
     ensure('frame-src',  ADD.frameSrc);
