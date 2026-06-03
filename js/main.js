@@ -13,8 +13,12 @@ import { initBookOnline } from './book-online.js';
 import { initIframeSync } from './iframe-sync.js';
 import { initPersistUrlParams } from './persist-url-params.js';
 import { initCarousels } from './carousel.js';
+import { initNoPhone } from './no-phone.js';
 
 function start() {
+  // Run first so phone numbers are stripped before any other module renders
+  // forms, menus, or wizards (the ?npn no-phone-numbers feature, #1440).
+  initNoPhone();
   initIframeSync();
   captureUtm();
   initPersistUrlParams();

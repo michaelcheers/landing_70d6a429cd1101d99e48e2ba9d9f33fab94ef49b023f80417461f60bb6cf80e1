@@ -72,6 +72,7 @@ function loadStripe() {
 export async function initBookOnline() {
   const root = document.getElementById('bo-root');
   if (!root) return;
+  if (/\/thankyou(\/|$)/.test(location.pathname)) { root.remove(); return; }
 
   // Prefill state from query string (the original supported deep-linking).
   const qs = new URLSearchParams(location.search);
